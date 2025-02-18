@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { motion, AnimatePresence } from "framer-motion";
@@ -41,7 +42,7 @@ export default function Header() {
               <NavLink href="#features">Features</NavLink>
               <NavLink href="#how-it-works">How it Works</NavLink>
               <NavLink href="#marketplace">Marketplace</NavLink>
-              <NavLink href="#about">About</NavLink>
+              <NavLink href="/about">About</NavLink>
             </div>
             <ConnectButton />
           </div>
@@ -87,7 +88,7 @@ export default function Header() {
               >
                 Marketplace
               </MobileNavLink>
-              <MobileNavLink href="#about" onClick={() => setIsOpen(false)}>
+              <MobileNavLink href="/about" onClick={() => setIsOpen(false)}>
                 About
               </MobileNavLink>
               <div className="pt-4">

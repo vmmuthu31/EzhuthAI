@@ -3,7 +3,8 @@ import "@rainbow-me/rainbowkit/styles.css";
 import "./globals.css";
 import Web3Provider from "../providers/web3";
 import { Metadata } from "next";
-
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -22,7 +23,11 @@ export default function RootLayout({
         <link rel="icon" href="/logo.png" />
       </head>
       <body className={inter.className}>
-        <Web3Provider>{children}</Web3Provider>
+        <Web3Provider>
+          <Header />
+          {children}
+          <Footer />
+        </Web3Provider>
       </body>
     </html>
   );

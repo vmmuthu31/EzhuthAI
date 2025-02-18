@@ -89,7 +89,7 @@ export default function Hero() {
             <div className="relative mx-auto w-full rounded-2xl shadow-xl overflow-hidden">
               {/* Replace this URL with a relevant Tamil literature themed GIF or image */}
               <img
-                src="https://api.deepai.org/job-view-file/4a04f523-6180-4464-ab9f-81e07db39925/outputs/output.jpg"
+                src="/hero.jpeg"
                 alt="Tamil Literature NFT"
                 className="w-full h-full object-cover"
               />
