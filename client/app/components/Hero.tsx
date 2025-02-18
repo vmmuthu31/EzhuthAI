@@ -36,23 +36,25 @@ export default function Hero() {
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center lg:justify-start">
-              <motion.button
+              <motion.a
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                href="/marketplace"
                 className="inline-flex items-center px-8 py-3 rounded-lg bg-primary text-white font-semibold shadow-lg shadow-primary/30 hover:shadow-xl transition-all duration-200"
               >
                 Start Collecting
                 <BsArrowRight className="ml-2" />
-              </motion.button>
+              </motion.a>
 
-              <motion.button
+              <motion.a
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                href="/learn"
                 className="inline-flex items-center px-8 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-semibold hover:border-primary hover:text-primary transition-all duration-200"
               >
                 <FaBookOpen className="mr-2" />
                 Learn More
-              </motion.button>
+              </motion.a>
             </div>
 
             {/* Stats */}

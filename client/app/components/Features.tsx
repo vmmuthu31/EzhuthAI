@@ -130,7 +130,7 @@ export default function Features() {
                     <motion.a
                       whileHover={{ x: 5 }}
                       className="inline-flex items-center text-primary hover:text-primary-dark text-sm font-medium"
-                      href="#"
+                      href="/learn"
                     >
                       Learn more
                       <svg
