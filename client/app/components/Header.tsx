@@ -10,6 +10,7 @@ import {
   FaEthereum,
   FaExclamationTriangle,
 } from "react-icons/fa";
+import Link from "next/link";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +20,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo and Brand */}
-          <div className="flex items-center">
+          <Link href="/" className="flex items-center">
             <motion.div
               whileHover={{ scale: 1.05 }}
               className="flex-shrink-0 flex items-center"
@@ -40,7 +41,7 @@ export default function Header() {
                 </span>
               </div>
             </motion.div>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center justify-between flex-1 ml-10">
