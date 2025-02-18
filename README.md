@@ -1,4 +1,4 @@
-# EzhuthAI 📚✨
+# EzhuthAI ![output-removebg-preview](https://github.com/user-attachments/assets/9cd40a58-b7ef-487f-9712-f06afc1db3da)
 
 > Bridging ancient Tamil wisdom with Web3 innovation through AI-powered NFTs
 
