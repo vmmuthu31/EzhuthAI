@@ -4,6 +4,12 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { motion, AnimatePresence } from "framer-motion";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
+import {
+  FaWallet,
+  FaUserCircle,
+  FaEthereum,
+  FaExclamationTriangle,
+} from "react-icons/fa";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,12 +45,134 @@ export default function Header() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center justify-between flex-1 ml-10">
             <div className="flex items-baseline space-x-4">
-              <NavLink href="#features">Features</NavLink>
-              <NavLink href="#how-it-works">How it Works</NavLink>
-              <NavLink href="#marketplace">Marketplace</NavLink>
+              <NavLink href="/#features">Features</NavLink>
+              <NavLink href="/#how-it-works">How it Works</NavLink>
+              <NavLink href="/#marketplace">Marketplace</NavLink>
               <NavLink href="/about">About</NavLink>
             </div>
-            <ConnectButton />
+            <ConnectButton.Custom>
+              {({
+                account,
+                chain,
+                openAccountModal,
+                openChainModal,
+                openConnectModal,
+                authenticationStatus,
+                mounted,
+              }) => {
+                const ready = mounted && authenticationStatus !== "loading";
+                const connected =
+                  ready &&
+                  account &&
+                  chain &&
+                  (!authenticationStatus ||
+                    authenticationStatus === "authenticated");
+
+                return (
+                  <div
+                    {...(!ready && {
+                      "aria-hidden": true,
+                      style: {
+                        opacity: 0,
+                        pointerEvents: "none",
+                        userSelect: "none",
+                      },
+                    })}
+                  >
+                    {(() => {
+                      if (!connected) {
+                        return (
+                          <motion.button
+                            onClick={openConnectModal}
+                            type="button"
+                            className="inline-flex items-center px-6 py-2.5 rounded-lg font-semibold text-white bg-gradient-to-r from-primary to-secondary hover:shadow-lg transition-all duration-300"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                          >
+                            <FaWallet className="mr-2" />
+                            Connect Wallet
+                          </motion.button>
+                        );
+                      }
+
+                      if (chain.unsupported) {
+                        return (
+                          <motion.button
+                            onClick={openChainModal}
+                            type="button"
+                            className="inline-flex items-center px-6 py-2.5 rounded-lg font-semibold text-white bg-red-500 hover:bg-red-600 hover:shadow-lg transition-all duration-300"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            <FaExclamationTriangle className="mr-2" />
+                            Wrong network
+                          </motion.button>
+                        );
+                      }
+
+                      return (
+                        <div className="flex items-center gap-4">
+                          <motion.button
+                            onClick={openChainModal}
+                            className="inline-flex items-center px-4 py-2 rounded-lg font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            type="button"
+                          >
+                            {chain.hasIcon && (
+                              <div
+                                className="w-5 h-5 rounded-full overflow-hidden mr-2 flex items-center justify-center"
+                                style={{ background: chain.iconBackground }}
+                              >
+                                {chain.iconUrl && (
+                                  <img
+                                    alt={chain.name ?? "Chain icon"}
+                                    src={chain.iconUrl}
+                                    className="w-5 h-5"
+                                  />
+                                )}
+                              </div>
+                            )}
+                            {chain.name}
+                          </motion.button>
+
+                          <motion.button
+                            onClick={openAccountModal}
+                            className="inline-flex items-center px-4 py-2 rounded-lg font-medium text-white bg-gradient-to-r from-primary to-secondary hover:shadow-lg transition-all duration-300"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            type="button"
+                          >
+                            <div className="flex items-center gap-2">
+                              <div className="flex items-center">
+                                <FaUserCircle className="mr-2" />
+                                <span className="hidden sm:inline">
+                                  {account.displayName}
+                                </span>
+                                <span className="inline sm:hidden">
+                                  {account.displayName.substring(0, 6)}...
+                                  {account.displayName.substring(
+                                    account.displayName.length - 4
+                                  )}
+                                </span>
+                              </div>
+                              {account.displayBalance && (
+                                <div className="hidden sm:flex items-center border-l border-white/20 pl-2 ml-2">
+                                  <FaEthereum className="mr-1" />
+                                  <span>{account.displayBalance}</span>
+                                </div>
+                              )}
+                            </div>
+                          </motion.button>
+                        </div>
+                      );
+                    })()}
+                  </div>
+                );
+              }}
+            </ConnectButton.Custom>{" "}
           </div>
 
           {/* Mobile menu button */}
@@ -73,17 +201,17 @@ export default function Header() {
             className="md:hidden"
           >
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white dark:bg-gray-900 shadow-lg">
-              <MobileNavLink href="#features" onClick={() => setIsOpen(false)}>
+              <MobileNavLink href="/#features" onClick={() => setIsOpen(false)}>
                 Features
               </MobileNavLink>
               <MobileNavLink
-                href="#how-it-works"
+                href="/#how-it-works"
                 onClick={() => setIsOpen(false)}
               >
                 How it Works
               </MobileNavLink>
               <MobileNavLink
-                href="#marketplace"
+                href="/#marketplace"
                 onClick={() => setIsOpen(false)}
               >
                 Marketplace
@@ -92,7 +220,130 @@ export default function Header() {
                 About
               </MobileNavLink>
               <div className="pt-4">
-                <ConnectButton />
+                TSX
+                <ConnectButton.Custom>
+                  {({
+                    account,
+                    chain,
+                    openAccountModal,
+                    openChainModal,
+                    openConnectModal,
+                    authenticationStatus,
+                    mounted,
+                  }) => {
+                    const ready = mounted && authenticationStatus !== "loading";
+                    const connected =
+                      ready &&
+                      account &&
+                      chain &&
+                      (!authenticationStatus ||
+                        authenticationStatus === "authenticated");
+
+                    return (
+                      <div
+                        {...(!ready && {
+                          "aria-hidden": true,
+                          style: {
+                            opacity: 0,
+                            pointerEvents: "none",
+                            userSelect: "none",
+                          },
+                        })}
+                      >
+                        {(() => {
+                          if (!connected) {
+                            return (
+                              <motion.button
+                                onClick={openConnectModal}
+                                type="button"
+                                className="inline-flex items-center px-6 py-2.5 rounded-lg font-semibold text-white bg-gradient-to-r from-primary to-secondary hover:shadow-lg transition-all duration-300"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                              >
+                                <FaWallet className="mr-2" />
+                                Connect Wallet
+                              </motion.button>
+                            );
+                          }
+
+                          if (chain.unsupported) {
+                            return (
+                              <motion.button
+                                onClick={openChainModal}
+                                type="button"
+                                className="inline-flex items-center px-6 py-2.5 rounded-lg font-semibold text-white bg-red-500 hover:bg-red-600 hover:shadow-lg transition-all duration-300"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                              >
+                                <FaExclamationTriangle className="mr-2" />
+                                Wrong network
+                              </motion.button>
+                            );
+                          }
+
+                          return (
+                            <div className="flex items-center gap-4">
+                              <motion.button
+                                onClick={openChainModal}
+                                className="inline-flex items-center px-4 py-2 rounded-lg font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                type="button"
+                              >
+                                {chain.hasIcon && (
+                                  <div
+                                    className="w-5 h-5 rounded-full overflow-hidden mr-2 flex items-center justify-center"
+                                    style={{ background: chain.iconBackground }}
+                                  >
+                                    {chain.iconUrl && (
+                                      <img
+                                        alt={chain.name ?? "Chain icon"}
+                                        src={chain.iconUrl}
+                                        className="w-5 h-5"
+                                      />
+                                    )}
+                                  </div>
+                                )}
+                                {chain.name}
+                              </motion.button>
+
+                              <motion.button
+                                onClick={openAccountModal}
+                                className="inline-flex items-center px-4 py-2 rounded-lg font-medium text-white bg-gradient-to-r from-primary to-secondary hover:shadow-lg transition-all duration-300"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                type="button"
+                              >
+                                <div className="flex items-center gap-2">
+                                  <div className="flex items-center">
+                                    <FaUserCircle className="mr-2" />
+                                    <span className="hidden sm:inline">
+                                      {account.displayName}
+                                    </span>
+                                    <span className="inline sm:hidden">
+                                      {account.displayName.substring(0, 6)}...
+                                      {account.displayName.substring(
+                                        account.displayName.length - 4
+                                      )}
+                                    </span>
+                                  </div>
+                                  {account.displayBalance && (
+                                    <div className="hidden sm:flex items-center border-l border-white/20 pl-2 ml-2">
+                                      <FaEthereum className="mr-1" />
+                                      <span>{account.displayBalance}</span>
+                                    </div>
+                                  )}
+                                </div>
+                              </motion.button>
+                            </div>
+                          );
+                        })()}
+                      </div>
+                    );
+                  }}
+                </ConnectButton.Custom>
               </div>
             </div>
           </motion.div>
