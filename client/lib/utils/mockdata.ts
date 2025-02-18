@@ -1,0 +1,222 @@
+import { LiteratureMetadata, NFTListing } from "./types";
+
+// TODO: Remove this mock data and use the actual data from the smart contract
+export const mockListings: NFTListing[] = [
+  {
+    id: "1",
+    title: "பரிபாடல்",
+    author: "Unknown",
+    description:
+      "A collection of musical poems praising Vishnu, Murugan, and the river Vaigai",
+    currentPrice: 0.8,
+    startingPrice: 0.5,
+    highestBid: 0.8,
+    image:
+      "https://gowrabookfair.com/wp-content/uploads/2024/06/0874-F-scaled-1.jpg",
+    likes: 234,
+    category: "Classical",
+    seller: "0x1234...5678",
+    endTime: "2025-02-19 18:39:35",
+    bids: 12,
+    isAuction: true,
+    lastSoldPrice: 0.6,
+  },
+  {
+    id: "2",
+    title: "சிலப்பதிகாரம்",
+    author: "இளங்கோவடிகள்",
+    description:
+      "The epic tale of Kannagi and Kovalan, one of the Five Great Epics of Tamil literature",
+    currentPrice: 2.5,
+    startingPrice: 2.0,
+    highestBid: 2.5,
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Silappathikaram.jpg/800px-Silappathikaram.jpg",
+    likes: 892,
+    category: "Epic",
+    seller: "vmmuthu31",
+    endTime: "2025-02-20 19:05:33",
+    bids: 28,
+    isAuction: true,
+    lastSoldPrice: 1.8,
+  },
+  {
+    id: "3",
+    title: "திருக்குறள்",
+    author: "திருவள்ளுவர்",
+    description:
+      "A classic Tamil text consisting of 1,330 couplets dealing with various aspects of life",
+    currentPrice: 1.5,
+    startingPrice: 1.5,
+    highestBid: 0,
+    image:
+      "https://m.media-amazon.com/images/I/61CPVxWwDaL._AC_UF1000,1000_QL80_.jpg",
+    likes: 1456,
+    category: "Classical",
+    seller: "0xabcd...efgh",
+    endTime: "2025-02-18 20:05:33", // 1 hour from current time
+    bids: 0,
+    isAuction: false,
+    lastSoldPrice: 1.2,
+  },
+  {
+    id: "4",
+    title: "குறிஞ்சிப்பாட்டு",
+    author: "கபிலர்",
+    description:
+      "A detailed description of mountain landscape and love in the mountainous region",
+    currentPrice: 0.6,
+    startingPrice: 0.4,
+    highestBid: 0.6,
+    image:
+      "https://www.tamilbooksonline.in/wp-content/uploads/2020/07/Kurinjipattu.jpg",
+    likes: 345,
+    category: "Classical",
+    seller: "0x9876...5432",
+    endTime: "2025-02-18 19:35:33", // 30 minutes from current time
+    bids: 8,
+    isAuction: true,
+    lastSoldPrice: 0.35,
+  },
+  {
+    id: "5",
+    title: "மணிமேகலை",
+    author: "சீத்தலைச் சாத்தனார்",
+    description:
+      "Buddhist epic following the story of Manimekalai, daughter of Kovalan and Madhavi",
+    currentPrice: 1.8,
+    startingPrice: 1.8,
+    highestBid: 0,
+    image: "https://bookwomb.com/wp-content/uploads/2023/03/manimegalai-1.jpg",
+    likes: 567,
+    category: "Epic",
+    seller: "vmmuthu31",
+    endTime: "2025-03-18 19:05:33", // 1 month from current time
+    bids: 0,
+    isAuction: false,
+    lastSoldPrice: 1.5,
+  },
+  {
+    id: "6",
+    title: "புறநானூறு",
+    author: "Various Authors",
+    description:
+      "Collection of 400 poems about war, wisdom, and ancient Tamil kings",
+    currentPrice: 1.2,
+    startingPrice: 0.8,
+    highestBid: 1.2,
+    image:
+      "https://www.tamilbooksonline.in/wp-content/uploads/2020/07/Purananuru.jpg",
+    likes: 678,
+    category: "Poetry",
+    seller: "0x5555...7777",
+    endTime: "2025-02-19 07:05:33", // 12 hours from current time
+    bids: 15,
+    isAuction: true,
+    lastSoldPrice: 0.9,
+  },
+  {
+    id: "7",
+    title: "கம்பராமாயணம்",
+    author: "கம்பர்",
+    description:
+      "Tamil adaptation of the Ramayana, one of the greatest epics in Tamil literature",
+    currentPrice: 3.0,
+    startingPrice: 3.0,
+    highestBid: 0,
+    image: "https://m.media-amazon.com/images/I/51DxWheqbQL.jpg",
+    likes: 1289,
+    category: "Epic",
+    seller: "0x8888...9999",
+    endTime: "2025-02-25 19:05:33", // 1 week from current time
+    bids: 0,
+    isAuction: false,
+    lastSoldPrice: 2.8,
+  },
+  {
+    id: "8",
+    title: "அகநானூறு",
+    author: "Various Poets",
+    description:
+      "Collection of 400 poems dealing with aspects of inner life and love",
+    currentPrice: 0.9,
+    startingPrice: 0.5,
+    highestBid: 0.9,
+    image:
+      "https://www.tamilbooksonline.in/wp-content/uploads/2020/07/Agananuru.jpg",
+    likes: 432,
+    category: "Poetry",
+    seller: "0x7777...8888",
+    endTime: "2025-02-18 21:05:33", // 2 hours from current time
+    bids: 10,
+    isAuction: true,
+    lastSoldPrice: 0.45,
+  },
+  {
+    id: "9",
+    title: "தொல்காப்பியம்",
+    author: "தொல்காப்பியர்",
+    description:
+      "The oldest extant Tamil grammar text and the earliest work of Tamil literature",
+    currentPrice: 2.2,
+    startingPrice: 2.2,
+    highestBid: 0,
+    image: "https://m.media-amazon.com/images/I/51nfEdGVYFL.jpg",
+    likes: 890,
+    category: "Prose",
+    seller: "0x4444...6666",
+    endTime: "2025-04-18 19:05:33", // 2 months from current time
+    bids: 0,
+    isAuction: false,
+    lastSoldPrice: 2.0,
+  },
+  {
+    id: "10",
+    title: "திருவாசகம்",
+    author: "மாணிக்கவாசகர்",
+    description: "Collection of Tamil religious poems devoted to Lord Shiva",
+    currentPrice: 1.1,
+    startingPrice: 0.7,
+    highestBid: 1.1,
+    image: "https://m.media-amazon.com/images/I/51X6E9A7QQL.jpg",
+    likes: 756,
+    category: "Devotional",
+    seller: "vmmuthu31",
+    endTime: "2025-02-18 19:20:33", // 15 minutes from current time
+    bids: 18,
+    isAuction: true,
+    lastSoldPrice: 0.8,
+  },
+];
+
+export const mockLiterature: LiteratureMetadata = {
+  id: "1",
+  title: "Thirukkural",
+  tamilTitle: "திருக்குறள்",
+  author: "Thiruvalluvar",
+  period: "Classical Period",
+  year: "~2nd century BCE",
+  category: "Ethical Literature",
+  language: "Classical Tamil",
+  description:
+    "A classic Tamil text consisting of 1,330 couplets or kurals, dealing with the everyday virtues of an individual.",
+  content: "Sample verses in Tamil with translations...",
+  translationAvailable: true,
+  rarity: "Legendary",
+  tokenId: "TK001",
+  currentOwner: "0x1234...5678",
+  previousOwners: ["0xabcd...efgh", "0x9876...5432"],
+  price: 1.5,
+  lastSoldPrice: 1.2,
+  likes: 2456,
+  views: 12890,
+  createdAt: "2025-02-18 18:41:25",
+  image: "/nfts/thirukkural.jpg",
+  attributes: {
+    verses: 1330,
+    chapters: 133,
+    words: 4510,
+    genre: "Ethical Text",
+    theme: ["Ethics", "Virtue", "Love", "Governance"],
+  },
+};

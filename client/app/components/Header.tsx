@@ -48,7 +48,7 @@ export default function Header() {
             <div className="flex items-baseline space-x-4">
               <NavLink href="/#features">Features</NavLink>
               <NavLink href="/#how-it-works">How it Works</NavLink>
-              <NavLink href="/#marketplace">Marketplace</NavLink>
+              <NavLink href="/marketplace">Marketplace</NavLink>
               <NavLink href="/about">About</NavLink>
             </div>
             <ConnectButton.Custom>
@@ -212,7 +212,7 @@ export default function Header() {
                 How it Works
               </MobileNavLink>
               <MobileNavLink
-                href="/#marketplace"
+                href="/marketplace"
                 onClick={() => setIsOpen(false)}
               >
                 Marketplace
