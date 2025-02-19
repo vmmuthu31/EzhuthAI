@@ -2,7 +2,6 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import {
   FaEthereum,
   FaHeart,
@@ -117,10 +116,6 @@ export default function LiteraturePage() {
                     {mockLiterature.lastSoldPrice} ETH
                   </div>
                 </div>
-              </div>
-
-              <div className="flex justify-center">
-                <ConnectButton />
               </div>
             </div>
           </motion.div>

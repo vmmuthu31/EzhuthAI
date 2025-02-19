@@ -13,8 +13,6 @@ import {
 } from "react-icons/fa";
 
 export default function LearnMore() {
-  const currentTime = "2025-02-18 19:17:45";
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 pt-20">
       {/* Hero Section */}
@@ -242,12 +240,6 @@ export default function LearnMore() {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="py-8 px-4 text-center text-gray-600 dark:text-gray-400">
-        <p>Current Time (UTC): {currentTime}</p>
-        <p>Platform developed by vmmuthu31</p>
-      </footer>
     </div>
   );
 }

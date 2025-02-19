@@ -140,7 +140,6 @@ export default function AdminDashboard() {
                 </>
               )}
             </button>
-            <ConnectButton />
           </div>
         </div>
 

@@ -1,7 +1,6 @@
 "use client";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import {
   FaEthereum,
   FaHeart,
@@ -152,9 +151,6 @@ export default function Marketplace() {
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8">
               Trade, bid, and collect rare Tamil literary works as NFTs
             </p>
-            <div className="flex justify-center mb-8">
-              <ConnectButton />
-            </div>
           </motion.div>
         </div>
       </section>
