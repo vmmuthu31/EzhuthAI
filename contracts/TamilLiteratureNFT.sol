@@ -1,3 +1,4 @@
+
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
@@ -16,11 +17,13 @@ import "@openzeppelin/contracts/utils/Strings.sol";
  * @notice This contract implements an NFT platform specifically designed for Tamil literature,
  * featuring role-based access control, metadata management, and royalty distribution.
  */
+
 contract TamilLiteratureNFT is 
-    ERC721URIStorage,
+    ERC721,
     ERC721Enumerable,
+    ERC721URIStorage,
     AccessControl,
-    ReentrancyGuard 
+    ReentrancyGuard
 {
     using Counters for Counters.Counter;
     using Strings for uint256;
@@ -44,6 +47,7 @@ contract TamilLiteratureNFT is
     uint256 public constant MINT_COOLDOWN = 1 hours;
     uint256 public constant MAX_BATCH_SIZE = 20;
 
+    // structs
     struct LiteratureMetadata {
         string title;
         string author;
@@ -133,12 +137,40 @@ contract TamilLiteratureNFT is
     event MintingUnpaused(address indexed unpauser);
     event EmergencyWithdraw(address indexed admin, uint256 amount);
 
+    // constructors
     constructor() ERC721("Tamil Literature NFT", "TLNFT") {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(MINTER_ROLE, msg.sender);
         _grantRole(CURATOR_ROLE, msg.sender);
         _grantRole(MODERATOR_ROLE, msg.sender);
         _grantRole(UPDATER_ROLE, msg.sender);
+    }
+
+    //functions
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        virtual
+        override(ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl)
+        returns (bool)
+    {
+        return super.supportsInterface(interfaceId);
+    }
+
+    function _update(
+        address to,
+        uint256 tokenId,
+        address auth
+    ) internal virtual override(ERC721, ERC721Enumerable) returns (address) {
+        return super._update(to, tokenId, auth);
+    }
+
+    // Fix the increaseBalance function
+    function _increaseBalance(
+        address account,
+        uint128 value
+    ) internal virtual override(ERC721, ERC721Enumerable) {
+        super._increaseBalance(account, value);
     }
 
    function mintLiterature(
@@ -203,49 +235,56 @@ contract TamilLiteratureNFT is
         uint256[] memory tokenIds = new uint256[](params.length);
         
         for(uint256 i = 0; i < params.length; i++) {
-            _tokenIds.increment();
-            uint256 newTokenId = _tokenIds.current();
-            tokenIds[i] = newTokenId;
-
-            _safeMint(params[i].recipient, newTokenId);
-            _setTokenURI(newTokenId, params[i].uri);
-
-            require(!titleExists[params[i].title], "Title already exists");
-            require(bytes(params[i].title).length > 0, "Title cannot be empty");
-            require(bytes(params[i].author).length > 0, "Author cannot be empty");
-            require(params[i].year <= block.timestamp, "Invalid year");
-
-            literatureData[newTokenId] = LiteratureMetadata({
-                title: params[i].title,
-                author: params[i].author,
-                year: params[i].year,
-                category: params[i].category,
-                language: "Tamil",
-                workType: params[i].workType,
-                creator: params[i].recipient,
-                createdAt: block.timestamp,
-                isVerified: false,
-                lastUpdated: block.timestamp,
-                lastUpdatedBy: msg.sender
-            });
-
-            titleExists[params[i].title] = true;
-            tokenRoyalties[newTokenId] = params[i].recipient;
-            _categoryTokens[params[i].category].push(newTokenId);
-            _authorTokens[params[i].author].push(newTokenId);
-
-            emit LiteratureMinted(
-                newTokenId,
-                params[i].recipient,
-                params[i].title,
-                params[i].author,
-                params[i].year
-            );
+            tokenIds[i] = _mintSingle(params[i]);
         }
         
         emit BatchMinted(msg.sender, tokenIds, block.timestamp);
         return tokenIds;
     }
+
+        function _mintSingle(MintParams calldata params) internal returns (uint256) {
+        _tokenIds.increment();
+        uint256 newTokenId = _tokenIds.current();
+
+        require(!titleExists[params.title], "Title already exists");
+        require(bytes(params.title).length > 0, "Title cannot be empty");
+        require(bytes(params.author).length > 0, "Author cannot be empty");
+        require(params.year <= block.timestamp, "Invalid year");
+
+        _safeMint(params.recipient, newTokenId);
+        _setTokenURI(newTokenId, params.uri);
+
+        literatureData[newTokenId] = LiteratureMetadata({
+            title: params.title,
+            author: params.author,
+            year: params.year,
+            category: params.category,
+            language: "Tamil",
+            workType: params.workType,
+            creator: params.recipient,
+            createdAt: block.timestamp,
+            isVerified: false,
+            lastUpdated: block.timestamp,
+            lastUpdatedBy: msg.sender
+        });
+
+        titleExists[params.title] = true;
+        tokenRoyalties[newTokenId] = params.recipient;
+        _categoryTokens[params.category].push(newTokenId);
+        _authorTokens[params.author].push(newTokenId);
+
+        emit LiteratureMinted(
+            newTokenId,
+            params.recipient,
+            params.title,
+            params.author,
+            params.year
+        );
+
+        return newTokenId;
+    }
+
+
 
 
     function updateMetadata(
@@ -332,7 +371,7 @@ contract TamilLiteratureNFT is
         }
     }
 
-    function _exists(uint256 tokenId) internal view override returns (bool) {
+    function _exists(uint256 tokenId) internal view returns (bool) {
         return _ownerOf(tokenId) != address(0);
     }
 
@@ -342,16 +381,6 @@ contract TamilLiteratureNFT is
 
     function getTokensByAuthor(string calldata author) external view returns (uint256[] memory) {
         return _authorTokens[author];
-    }
-
-    function supportsInterface(bytes4 interfaceId)
-        public
-        view
-        virtual
-        override(ERC721URIStorage, ERC721Enumerable, AccessControl)
-        returns (bool)
-    {
-        return super.supportsInterface(interfaceId);
     }
 
     /**
@@ -417,7 +446,7 @@ contract TamilLiteratureNFT is
      * @param owner Address to query
      * @return uint256[] Array of token IDs owned by the address
      */
-    function tokensOfOwner(address owner) external view returns (uint256[] memory) {
+function tokensOfOwner(address owner) external view returns (uint256[] memory) {
         uint256 tokenCount = balanceOf(owner);
         uint256[] memory tokens = new uint256[](tokenCount);
         for(uint256 i = 0; i < tokenCount; i++) {
@@ -437,20 +466,26 @@ contract TamilLiteratureNFT is
         return (salePrice * rate) / 10000;
     }
 
-    function _beforeTokenTransfer(
-        address from,
-        address to,
-        uint256 firstTokenId,
-        uint256 batchSize
-    ) internal virtual override(ERC721, ERC721Enumerable) {
-        super._beforeTokenTransfer(from, to, firstTokenId, batchSize);
+    function getLiteratureDetails(uint256 tokenId) external view returns (
+        LiteratureMetadata memory metadata,  
+        address owner,
+        string memory uri
+    ) {
+        require(_exists(tokenId), "Token does not exist");
+        
+        metadata = literatureData[tokenId];
+        owner = ownerOf(tokenId);
+        uri = tokenURI(tokenId);
     }
 
-    function _burn(uint256 tokenId) internal virtual override(ERC721, ERC721URIStorage) {
-        super._burn(tokenId);
-    }
 
-    function tokenURI(uint256 tokenId) public view virtual override(ERC721, ERC721URIStorage) returns (string memory) {
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        virtual
+        override(ERC721, ERC721URIStorage)
+        returns (string memory)
+    {
         return super.tokenURI(tokenId);
     }
 }

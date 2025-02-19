@@ -1,19 +1,12 @@
 "use client";
 import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { WagmiProvider } from "wagmi";
-import {
-  mainnet,
-  polygon,
-  optimism,
-  arbitrum,
-  base,
-  holesky,
-} from "wagmi/chains";
+import { polygonAmoy, celoAlfajores, holesky } from "wagmi/chains";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 const config = getDefaultConfig({
   appName: "Ezhuthai",
   projectId: "YOUR_PROJECT_ID",
-  chains: [mainnet, polygon, optimism, arbitrum, base, holesky],
+  chains: [holesky, polygonAmoy, celoAlfajores],
 });
 
 const queryClient = new QueryClient();

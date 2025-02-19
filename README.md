@@ -30,13 +30,15 @@ EzhuthAI aims to revolutionize the preservation and accessibility of Tamil liter
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: 
+- **Frontend**:
+
   - Next.js
   - TypeScript
   - TailwindCSS
   - ethers.js/web3.js
 
 - **Smart Contracts**:
+
   - Solidity (Ethereum)
   - Cairo (StarkNet)
   - Rust (Solana)
@@ -48,18 +50,21 @@ EzhuthAI aims to revolutionize the preservation and accessibility of Tamil liter
 ## 🚀 Roadmap
 
 ### Phase 1: Foundation (Q1-Q2 2025)
+
 - [x] Smart Contract Development
 - [x] Basic NFT Minting
 - [ ] Frontend MVP
 - [ ] Initial AI Integration
 
 ### Phase 2: Expansion (Q3-Q4 2025)
+
 - [ ] StarkNet Integration
 - [ ] Enhanced AI Features
 - [ ] Community Governance
 - [ ] Educational Platform
 
 ### Phase 3: Scale (2026)
+
 - [ ] Solana Integration
 - [ ] Mobile App
 - [ ] Advanced AI Tools
@@ -70,6 +75,7 @@ EzhuthAI aims to revolutionize the preservation and accessibility of Tamil liter
 We welcome contributions from developers, Tamil scholars, and enthusiasts! Here's how you can help:
 
 ### For Developers
+
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
@@ -77,12 +83,14 @@ We welcome contributions from developers, Tamil scholars, and enthusiasts! Here'
 5. Open a Pull Request
 
 ### For Literature Experts
+
 - Help with content curation
 - Provide translations
 - Validate historical accuracy
 - Suggest educational content
 
 ### For Community Members
+
 - Join our DAO
 - Participate in governance
 - Help with testing
@@ -160,13 +168,16 @@ If EzhuthAI has inspired you or helped you in any way, we'd be grateful for your
 ### 🤝 Join Our Growing Community
 
 #### Ways to Contribute
+
 1. **Code Warriors** 👨‍💻
+
    - Pick up open issues
    - Submit PRs
    - Review code
    - Improve documentation
 
 2. **Tamil Scholars** 📚
+
    - Help curate content
    - Provide translations
    - Verify historical accuracy
@@ -179,7 +190,9 @@ If EzhuthAI has inspired you or helped you in any way, we'd be grateful for your
    - Educational materials
 
 ### 🎯 Current Focus Areas
+
 We're actively seeking help with:
+
 - AI model optimization
 - StarkNet integration
 - Educational content creation
@@ -188,4 +201,3 @@ We're actively seeking help with:
 > "ஒன்றுபட்டால் உண்டு வாழ்வு" - "Unity brings prosperity"
 
 Join us in this revolutionary journey of preserving and modernizing Tamil literature! 🚀
-
