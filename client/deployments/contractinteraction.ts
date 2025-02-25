@@ -179,7 +179,8 @@ export const contractUtils = {
   // Get all literature
   async getAllLiterature() {
     const contract = await this.getContract();
-    return await contract.getAllLiterature();
+    const listings = await contract.getAllLiterature();
+    return listings;
   },
 
   // Get minted literature by address

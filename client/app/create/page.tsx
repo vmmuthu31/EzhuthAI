@@ -9,26 +9,11 @@ import { useAccount } from "wagmi";
 
 interface FormData {
   title: string;
-  tamilTitle: string;
   author: string;
-  period: string;
   year: string;
   category: string;
-  language: string;
-  description: string;
-  content: string;
-  translationAvailable: boolean;
-  translation: string;
   rarity: "Common" | "Rare" | "Epic" | "Legendary";
   price: string;
-  royalty: string;
-  attributes: {
-    verses: string;
-    chapters: string;
-    words: string;
-    genre: string;
-    theme: string[];
-  };
   image: File | null;
 }
 
@@ -58,26 +43,11 @@ export default function CreateLiteratureNFT() {
 
   const [formData, setFormData] = useState<FormData>({
     title: "",
-    tamilTitle: "",
     author: "",
-    period: "",
     year: "",
     category: "",
-    language: "Classical Tamil",
-    description: "",
-    content: "",
-    translationAvailable: false,
-    translation: "",
     rarity: "Common",
     price: "",
-    royalty: "10",
-    attributes: {
-      verses: "",
-      chapters: "",
-      words: "",
-      genre: "",
-      theme: [],
-    },
     image: null,
   });
 
@@ -130,38 +100,6 @@ export default function CreateLiteratureNFT() {
           </p>
         </motion.div>
 
-        {/* Stepper */}
-        <div className="mb-8">
-          <div className="flex justify-between items-center">
-            {["Basic Info", "Content", "Attributes", "Review"].map(
-              (step, index) => (
-                <div key={index} className="flex items-center">
-                  <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                      currentStep > index + 1
-                        ? "bg-green-500 text-white"
-                        : currentStep === index + 1
-                          ? "bg-primary text-white"
-                          : "bg-gray-200 dark:bg-gray-700 text-gray-500"
-                    }`}
-                  >
-                    {currentStep > index + 1 ? "✓" : index + 1}
-                  </div>
-                  {index < 3 && (
-                    <div
-                      className={`w-full h-1 ${
-                        currentStep > index + 1
-                          ? "bg-green-500"
-                          : "bg-gray-200 dark:bg-gray-700"
-                      }`}
-                    />
-                  )}
-                </div>
-              )
-            )}
-          </div>
-        </div>
-
         {/* Form */}
         <motion.form
           initial={{ opacity: 0 }}
@@ -174,28 +112,13 @@ export default function CreateLiteratureNFT() {
               <div className="space-y-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Title (English)
+                    Title
                   </label>
                   <input
                     type="text"
                     value={formData.title}
                     onChange={(e) =>
                       setFormData({ ...formData, title: e.target.value })
-                    }
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Title (Tamil)
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.tamilTitle}
-                    onChange={(e) =>
-                      setFormData({ ...formData, tamilTitle: e.target.value })
                     }
                     className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700"
                     required
@@ -211,6 +134,21 @@ export default function CreateLiteratureNFT() {
                     value={formData.author}
                     onChange={(e) =>
                       setFormData({ ...formData, author: e.target.value })
+                    }
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Year
+                  </label>
+                  <input
+                    type="number"
+                    value={formData.year}
+                    onChange={(e) =>
+                      setFormData({ ...formData, year: e.target.value })
                     }
                     className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700"
                     required
@@ -236,49 +174,6 @@ export default function CreateLiteratureNFT() {
                       </option>
                     ))}
                   </select>
-                </div>
-              </div>
-
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Cover Image
-                  </label>
-                  <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-4">
-                    {previewUrl ? (
-                      <div className="relative h-48">
-                        <Image
-                          src={previewUrl}
-                          alt="Preview"
-                          fill
-                          className="object-cover rounded-lg"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setPreviewUrl("");
-                            setFormData({ ...formData, image: null });
-                          }}
-                          className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full"
-                        >
-                          ✕
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="text-center">
-                        <FaUpload className="mx-auto h-12 w-12 text-gray-400" />
-                        <p className="mt-2 text-sm text-gray-500">
-                          Click or drag to upload
-                        </p>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={handleImageChange}
-                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                        />
-                      </div>
-                    )}
-                  </div>
                 </div>
 
                 <div>
@@ -324,169 +219,53 @@ export default function CreateLiteratureNFT() {
                   />
                 </div>
               </div>
+
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Cover Image
+                  </label>
+                  <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-4">
+                    {previewUrl ? (
+                      <div className="relative h-96">
+                        <Image
+                          src={previewUrl}
+                          alt="Preview"
+                          fill
+                          className="object-cover rounded-lg"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setPreviewUrl("");
+                            setFormData({ ...formData, image: null });
+                          }}
+                          className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="text-center">
+                        <FaUpload className="mx-auto h-12 w-12 text-gray-400" />
+                        <p className="mt-2 text-sm text-gray-500">
+                          Click or drag to upload
+                        </p>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageChange}
+                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 
           {currentStep === 2 && (
-            <div className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Content (Tamil)
-                </label>
-                <textarea
-                  value={formData.content}
-                  onChange={(e) =>
-                    setFormData({ ...formData, content: e.target.value })
-                  }
-                  rows={10}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700"
-                  required
-                />
-              </div>
-
-              <div>
-                <div className="flex items-center mb-4">
-                  <input
-                    type="checkbox"
-                    checked={formData.translationAvailable}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        translationAvailable: e.target.checked,
-                      })
-                    }
-                    className="mr-2"
-                  />
-                  <label className="text-sm text-gray-700 dark:text-gray-300">
-                    Include English Translation
-                  </label>
-                </div>
-
-                {formData.translationAvailable && (
-                  <textarea
-                    value={formData.translation}
-                    onChange={(e) =>
-                      setFormData({ ...formData, translation: e.target.value })
-                    }
-                    rows={10}
-                    placeholder="Enter English translation..."
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700"
-                  />
-                )}
-              </div>
-            </div>
-          )}
-
-          {currentStep === 3 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Number of Verses
-                  </label>
-                  <input
-                    type="number"
-                    value={formData.attributes.verses}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        attributes: {
-                          ...formData.attributes,
-                          verses: e.target.value,
-                        },
-                      })
-                    }
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Number of Chapters
-                  </label>
-                  <input
-                    type="number"
-                    value={formData.attributes.chapters}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        attributes: {
-                          ...formData.attributes,
-                          chapters: e.target.value,
-                        },
-                      })
-                    }
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Word Count
-                  </label>
-                  <input
-                    type="number"
-                    value={formData.attributes.words}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        attributes: {
-                          ...formData.attributes,
-                          words: e.target.value,
-                        },
-                      })
-                    }
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Genre
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.attributes.genre}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        attributes: {
-                          ...formData.attributes,
-                          genre: e.target.value,
-                        },
-                      })
-                    }
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Themes (comma-separated)
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.attributes.theme.join(", ")}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        attributes: {
-                          ...formData.attributes,
-                          theme: e.target.value.split(",").map((t) => t.trim()),
-                        },
-                      })
-                    }
-                    placeholder="Love, War, Philosophy, etc."
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700"
-                  />
-                </div>
-              </div>
-            </div>
-          )}
-
-          {currentStep === 4 && (
             <div className="space-y-8">
               <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
                 <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
@@ -496,7 +275,7 @@ export default function CreateLiteratureNFT() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div>
                     {previewUrl && (
-                      <div className="relative h-64 mb-4 rounded-lg overflow-hidden">
+                      <div className="relative h-96 mb-4 rounded-lg overflow-hidden">
                         <Image
                           src={previewUrl}
                           alt="NFT Preview"
@@ -508,10 +287,10 @@ export default function CreateLiteratureNFT() {
 
                     <div className="space-y-2">
                       <h4 className="text-lg font-medium text-gray-900 dark:text-white">
-                        {formData.tamilTitle}
+                        {formData.title}
                       </h4>
                       <p className="text-gray-600 dark:text-gray-300">
-                        {formData.title}
+                        {formData.author}
                       </p>
                       <div className="flex items-center space-x-2">
                         <span
@@ -547,26 +326,18 @@ export default function CreateLiteratureNFT() {
                         </li>
                         <li className="flex justify-between">
                           <span className="text-gray-600 dark:text-gray-300">
+                            Year
+                          </span>
+                          <span className="text-gray-900 dark:text-white">
+                            {formData.year}
+                          </span>
+                        </li>
+                        <li className="flex justify-between">
+                          <span className="text-gray-600 dark:text-gray-300">
                             Category
                           </span>
                           <span className="text-gray-900 dark:text-white">
                             {formData.category}
-                          </span>
-                        </li>
-                        <li className="flex justify-between">
-                          <span className="text-gray-600 dark:text-gray-300">
-                            Verses
-                          </span>
-                          <span className="text-gray-900 dark:text-white">
-                            {formData.attributes.verses}
-                          </span>
-                        </li>
-                        <li className="flex justify-between">
-                          <span className="text-gray-600 dark:text-gray-300">
-                            Chapters
-                          </span>
-                          <span className="text-gray-900 dark:text-white">
-                            {formData.attributes.chapters}
                           </span>
                         </li>
                       </ul>
@@ -578,7 +349,7 @@ export default function CreateLiteratureNFT() {
                       </h5>
                       <div className="mt-2 bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
                         <p className="text-gray-900 dark:text-white line-clamp-3">
-                          {formData.content}
+                          {formData.title}
                         </p>
                       </div>
                     </div>
@@ -621,14 +392,14 @@ export default function CreateLiteratureNFT() {
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              type={currentStep === 4 ? "submit" : "button"}
+              type={currentStep === 2 ? "submit" : "button"}
               onClick={() => {
-                if (currentStep < 4) {
+                if (currentStep < 2) {
                   setCurrentStep(currentStep + 1);
                 }
               }}
               className={`px-6 py-2 rounded-lg ${
-                currentStep === 4
+                currentStep === 2
                   ? "bg-gradient-to-r from-primary to-secondary text-white"
                   : "bg-primary text-white"
               }`}
@@ -636,7 +407,7 @@ export default function CreateLiteratureNFT() {
             >
               {isUploading
                 ? "Creating NFT..."
-                : currentStep === 4
+                : currentStep === 2
                   ? "Create NFT"
                   : "Next"}
             </motion.button>

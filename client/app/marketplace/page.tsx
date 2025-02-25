@@ -14,6 +14,7 @@ import {
 import debounce from "lodash.debounce";
 import { mockListings } from "@/lib/utils/mockdata";
 import { NFTListing } from "@/lib/utils/types";
+// import { contractUtils } from "@/deployments/contractinteraction";
 
 const categories = ["All", "Classical", "Epic", "Modern", "Poetry", "Prose"];
 const sortOptions = [
@@ -50,6 +51,16 @@ export default function Marketplace() {
   const [priceRange, setPriceRange] = useState({ min: 0, max: 10 });
   const [showFilters, setShowFilters] = useState(false);
   const [activeTab, setActiveTab] = useState("all"); // all, auctions, fixed-price
+
+  const fetchListings = async () => {
+    // const listings = await contractUtils.getAllLiterature();
+    // setFilteredListings(listings);
+  };
+
+  useEffect(() => {
+    fetchListings();
+  }, []);
+
   const [filteredListings, setFilteredListings] =
     useState<NFTListing[]>(mockListings);
 
