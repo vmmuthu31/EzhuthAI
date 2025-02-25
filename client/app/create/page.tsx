@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { FaUpload, FaInfoCircle } from "react-icons/fa";
+import { contractUtils } from "@/deployments/contractinteraction";
+import { useAccount } from "wagmi";
 
 interface FormData {
   title: string;
@@ -51,6 +53,7 @@ export default function CreateLiteratureNFT() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [isUploading, setIsUploading] = useState(false);
+  const { address } = useAccount();
   const [previewUrl, setPreviewUrl] = useState<string>("");
 
   const [formData, setFormData] = useState<FormData>({
@@ -91,6 +94,16 @@ export default function CreateLiteratureNFT() {
     setIsUploading(true);
     try {
       // Implement your NFT minting logic here
+      await contractUtils.mintLiterature(
+        address as string,
+        formData.image ? URL.createObjectURL(formData.image) : "",
+        formData.title,
+        formData.author,
+        parseInt(formData.year),
+        formData.category,
+        formData.rarity,
+        formData.price
+      );
       await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulated delay
       router.push("/marketplace");
     } catch (error) {

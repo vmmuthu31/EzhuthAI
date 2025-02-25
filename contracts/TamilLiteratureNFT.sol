@@ -1,4 +1,3 @@
-
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
@@ -13,11 +12,8 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 /**
  * @title TamilLiteratureNFT
  * @dev Implementation of a Tamil Literature NFT platform with role-based access control
- * @author vmmuthu31
- * @notice This contract implements an NFT platform specifically designed for Tamil literature,
- * featuring role-based access control, metadata management, and royalty distribution.
+ * featuring metadata management and royalty distribution.
  */
-
 contract TamilLiteratureNFT is 
     ERC721,
     ERC721Enumerable,
@@ -47,7 +43,7 @@ contract TamilLiteratureNFT is
     uint256 public constant MINT_COOLDOWN = 1 hours;
     uint256 public constant MAX_BATCH_SIZE = 20;
 
-    // structs
+    // Structs
     struct LiteratureMetadata {
         string title;
         string author;
@@ -137,7 +133,7 @@ contract TamilLiteratureNFT is
     event MintingUnpaused(address indexed unpauser);
     event EmergencyWithdraw(address indexed admin, uint256 amount);
 
-    // constructors
+    // Constructors
     constructor() ERC721("Tamil Literature NFT", "TLNFT") {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(MINTER_ROLE, msg.sender);
@@ -146,7 +142,7 @@ contract TamilLiteratureNFT is
         _grantRole(UPDATER_ROLE, msg.sender);
     }
 
-    //functions
+    // Functions
     function supportsInterface(bytes4 interfaceId)
         public
         view
@@ -173,7 +169,7 @@ contract TamilLiteratureNFT is
         super._increaseBalance(account, value);
     }
 
-   function mintLiterature(
+    function mintLiterature(
         address recipient,
         string calldata uri,
         string calldata title,
@@ -242,7 +238,7 @@ contract TamilLiteratureNFT is
         return tokenIds;
     }
 
-        function _mintSingle(MintParams calldata params) internal returns (uint256) {
+    function _mintSingle(MintParams calldata params) internal returns (uint256) {
         _tokenIds.increment();
         uint256 newTokenId = _tokenIds.current();
 
@@ -283,9 +279,6 @@ contract TamilLiteratureNFT is
 
         return newTokenId;
     }
-
-
-
 
     function updateMetadata(
         uint256 tokenId,
@@ -446,7 +439,7 @@ contract TamilLiteratureNFT is
      * @param owner Address to query
      * @return uint256[] Array of token IDs owned by the address
      */
-function tokensOfOwner(address owner) external view returns (uint256[] memory) {
+    function tokensOfOwner(address owner) external view returns (uint256[] memory) {
         uint256 tokenCount = balanceOf(owner);
         uint256[] memory tokens = new uint256[](tokenCount);
         for(uint256 i = 0; i < tokenCount; i++) {
@@ -478,6 +471,42 @@ function tokensOfOwner(address owner) external view returns (uint256[] memory) {
         uri = tokenURI(tokenId);
     }
 
+    /**
+     * @dev Gets all literature tokens
+     * @return uint256[] Array of all literature token IDs
+     */
+    function getAllLiterature() external view returns (uint256[] memory) {
+        uint256 total = totalSupply();
+        uint256[] memory tokens = new uint256[](total);
+        for (uint256 i = 0; i < total; i++) {
+            tokens[i] = tokenByIndex(i);
+        }
+        return tokens;
+    }
+
+    /**
+     * @dev Gets all minted literature tokens by an address
+     * @param owner Address to query
+     * @return uint256[] Array of literature token IDs minted by the address
+     */
+    function getMintedLiteratureByAddress(address owner) external view returns (uint256[] memory) {
+        uint256 total = _tokenIds.current();
+        uint256 mintedCount = 0;
+        for (uint256 i = 1; i <= total; i++) {
+            if (literatureData[i].creator == owner) {
+                mintedCount++;
+            }
+        }
+        uint256[] memory tokens = new uint256[](mintedCount);
+        uint256 index = 0;
+        for (uint256 i = 1; i <= total; i++) {
+            if (literatureData[i].creator == owner) {
+                tokens[index] = i;
+                index++;
+            }
+        }
+        return tokens;
+    }
 
     function tokenURI(uint256 tokenId)
         public

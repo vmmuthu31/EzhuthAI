@@ -3,9 +3,9 @@ import ContractABI from "./abi.json";
 
 // Contract addresses for different networks
 export const CONTRACT_ADDRESSES = {
-  44787: "0x7adc738bab6e32452d3065de9a1e77d755b50791", // celo
-  17000: "0xc6c9fe196408c0ade5f394d930cf90ebab66511e", // holesky
-  80002: "0xc6c9fe196408c0ade5f394d930cf90ebab66511e", // polygon amoy
+  // 44787: "0x7adc738bab6e32452d3065de9a1e77d755b50791", // celo
+  // 17000: "0xc6c9fe196408c0ade5f394d930cf90ebab66511e", // holesky
+  80002: "0x2B65Eba61bac37Ae872bEFf9d1932129B0ed24ee", // polygon amoy
 } as const;
 
 // Check if we're in a browser environment
