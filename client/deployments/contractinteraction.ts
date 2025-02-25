@@ -175,4 +175,16 @@ export const contractUtils = {
     const tx = await contract.unpauseMinting();
     return await tx.wait();
   },
+
+  // Get all literature
+  async getAllLiterature() {
+    const contract = await this.getContract();
+    return await contract.getAllLiterature();
+  },
+
+  // Get minted literature by address
+  async getMintedLiteratureByAddress(address: string) {
+    const contract = await this.getContract();
+    return await contract.getMintedLiteratureByAddress(address);
+  },
 };
