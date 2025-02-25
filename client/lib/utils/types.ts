@@ -46,3 +46,10 @@ export interface LiteratureMetadata {
     theme: string[];
   };
 }
+
+export interface PinataMetadata {
+  name?: string;
+  description?: string;
+  image?: string;
+  attributes?: Record<string, unknown>;
+}
